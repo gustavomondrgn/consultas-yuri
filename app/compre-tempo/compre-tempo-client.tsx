@@ -13,6 +13,11 @@ import {
 } from "./config";
 import { CountdownBar } from "./countdown-bar";
 
+// public/ NÃO herda o basePath em <img src> — prefixar manualmente (mesmo gotcha
+// dos fetch client-side). Ex.: /compre-tempo/x.png → /consultas/compre-tempo/x.png
+const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const asset = (p: string) => `${BP}${p}`;
+
 // ── Primitivas reutilizáveis ────────────────────────────────────────────────
 
 function BuyButton({ label = "QUERO COMPRAR TEMPO" }: { label?: string }) {
@@ -72,7 +77,7 @@ function CartaImage({
       style={maxWidth ? { maxWidth } : undefined}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} loading="lazy" className="block h-auto w-full" />
+      <img src={asset(src)} alt={alt} loading="lazy" className="block h-auto w-full" />
     </div>
   );
 }
@@ -86,14 +91,14 @@ function FaturamentoStack() {
       <div className="flex flex-col gap-2 p-2 sm:gap-3 sm:p-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/compre-tempo/fat-yuri1.png"
+          src={asset("/compre-tempo/fat-yuri1.png")}
           alt="Resumo de vendas: 96 vendas entre 1 e 23 de maio, R$ 25.418,56 bruto, R$ 23.944,12 líquido"
           loading="lazy"
           className="block h-auto w-full rounded-md"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/compre-tempo/fat-yuri2.png"
+          src={asset("/compre-tempo/fat-yuri2.png")}
           alt="Calendário de vendas diárias em maio de 2026"
           loading="lazy"
           className="block h-auto w-full rounded-md"
